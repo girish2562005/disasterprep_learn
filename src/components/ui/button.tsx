@@ -9,12 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 emergency-transition emergency-glow",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 emergency-transition",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground emergency-transition",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 emergency-transition success-glow",
+        ghost: "hover:bg-accent hover:text-accent-foreground emergency-transition",
+        link: "text-primary underline-offset-4 hover:underline emergency-transition",
+        hero: "hero-gradient text-primary-foreground font-semibold hover:scale-105 emergency-transition emergency-glow border-0",
+        emergency: "emergency-gradient text-primary-foreground font-bold emergency-pulse emergency-transition",
+        success: "success-gradient text-success-foreground font-semibold hover:scale-105 emergency-transition success-glow",
+        warning: "warning-gradient text-warning-foreground font-semibold hover:scale-105 emergency-transition",
       },
       size: {
         default: "h-10 px-4 py-2",
