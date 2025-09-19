@@ -275,7 +275,7 @@ const Index = () => {
                 <Award className="w-5 h-5 mr-2" />
                 Start Your Journey
               </Button>
-              <Button size="lg" variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">
+              <Button size="lg" variant="hero">
                 View All Courses
               </Button>
             </div>
