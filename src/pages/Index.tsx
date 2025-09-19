@@ -56,7 +56,8 @@ const Index = () => {
 
   const handleModuleStart = (moduleId: string) => {
     if (moduleId === "earthquake") {
-      setShowQuiz(true);
+      // Navigate to the dedicated earthquake module page
+      window.location.href = "/earthquake-module";
     }
   };
 
@@ -66,27 +67,7 @@ const Index = () => {
     // Here you could show a success message or redirect to achievements
   };
 
-  if (showQuiz) {
-    return (
-      <div className="min-h-screen bg-background py-8 px-4">
-        <div className="container mx-auto">
-          <Button 
-            variant="outline" 
-            onClick={() => setShowQuiz(false)}
-            className="mb-6"
-          >
-            ← Back to Modules
-          </Button>
-          <QuizCard
-            title="Earthquake Preparedness Quiz"
-            description="Test your knowledge of earthquake safety procedures"
-            questions={sampleQuizQuestions}
-            onComplete={handleQuizComplete}
-          />
-        </div>
-      </div>
-    );
-  }
+  // Remove the old quiz display logic since we're using a dedicated page
 
   return (
     <div className="min-h-screen bg-background">
