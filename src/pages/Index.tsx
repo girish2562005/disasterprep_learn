@@ -5,6 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { ModuleCard } from "@/components/ModuleCard";
 import { StatsCard } from "@/components/StatsCard";
 import { QuizCard } from "@/components/QuizCard";
+import { SOSSystem } from "@/components/SOSSystem";
+import { RegionalAlerts } from "@/components/RegionalAlerts";
+import { ARVRComingSoon } from "@/components/ARVRComingSoon";
+import LanguageSelector from "@/components/LanguageSelector";
 import { 
   Shield, 
   Zap, 
@@ -71,6 +75,19 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header with Language Selector */}
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Shield className="w-6 h-6 text-primary" />
+              <span className="font-bold text-xl">DisasterPrep Learn</span>
+            </div>
+            <LanguageSelector />
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="hero-gradient">
@@ -240,6 +257,26 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Emergency Features Section */}
+      <section className="py-16 bg-muted/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="text-4xl font-bold">Emergency Response Tools</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Advanced tools and alerts to keep you safe during emergencies
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <SOSSystem />
+            <RegionalAlerts />
+          </div>
+        </div>
+      </section>
+
+      {/* AR/VR Coming Soon Section */}
+      <ARVRComingSoon />
 
       {/* Call to Action */}
       <section className="py-16 emergency-gradient">
