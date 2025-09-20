@@ -346,7 +346,7 @@ export default function EarthquakeModule() {
           <SecureQuizCard
             title="Earthquake Safety Quiz"
             description="Test your knowledge of earthquake safety procedures"
-            moduleId="earthquake-safety"
+            moduleId="7b2278c0-280b-4788-a421-1807b55ebd6f"
             onComplete={handleQuizComplete}
           />
           </TabsContent>
