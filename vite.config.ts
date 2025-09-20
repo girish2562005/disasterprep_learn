@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/disasterprep_learn/",   // 👈 IMPORTANT for GitHub Pages
+  base: "/",   // Fixed for proper deployment
   server: {
     host: "::",
     port: 8080,
