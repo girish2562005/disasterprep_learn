@@ -343,13 +343,12 @@ export default function EarthquakeModule() {
           </TabsContent>
 
           <TabsContent value="quiz">
-            <SecureQuizCard
-              title="Earthquake Safety Quiz"
-              description="Test your knowledge of earthquake safety procedures"
-              questions={quizQuestions}
-              moduleId="earthquake-safety"
-              onComplete={handleQuizComplete}
-            />
+          <SecureQuizCard
+            title="Earthquake Safety Quiz"
+            description="Test your knowledge of earthquake safety procedures"
+            moduleId="earthquake-safety"
+            onComplete={handleQuizComplete}
+          />
           </TabsContent>
 
           <TabsContent value="scenarios">

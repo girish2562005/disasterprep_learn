@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -29,20 +29,57 @@ interface SubmissionResult {
 interface SecureQuizCardProps {
   title: string;
   description: string;
-  questions: QuizQuestion[];
   moduleId: string;
   onComplete: (score: number) => void;
 }
 
-export function SecureQuizCard({ title, description, questions, moduleId, onComplete }: SecureQuizCardProps) {
+export function SecureQuizCard({ title, description, moduleId, onComplete }: SecureQuizCardProps) {
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [answers, setAnswers] = useState<(number | null)[]>(new Array(questions.length).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>([]);
   const { toast } = useToast();
+
+  // Fetch questions securely from the view
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('quiz_questions_student_view')
+          .select('*')
+          .eq('module_id', moduleId)
+          .order('order_index');
+
+        if (error) throw error;
+
+        const formattedQuestions = data.map(q => ({
+          id: q.id,
+          question: q.question,
+          options: q.options as string[],
+          order_index: q.order_index
+        }));
+
+        setQuestions(formattedQuestions);
+        setAnswers(new Array(formattedQuestions.length).fill(null));
+      } catch (error) {
+        console.error('Error fetching questions:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load quiz questions. Please try again.",
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, [moduleId, toast]);
 
   const handleAnswerSelect = (answerIndex: number) => {
     setSelectedAnswer(answerIndex);
@@ -125,6 +162,27 @@ export function SecureQuizCard({ title, description, questions, moduleId, onComp
       setIsSubmitting(false);
     }
   };
+
+  if (loading) {
+    return (
+      <Card className="max-w-2xl mx-auto emergency-transition">
+        <CardContent className="flex items-center justify-center p-8">
+          <Loader2 className="w-8 h-8 animate-spin" />
+          <span className="ml-2">Loading quiz...</span>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (questions.length === 0) {
+    return (
+      <Card className="max-w-2xl mx-auto emergency-transition">
+        <CardContent className="text-center p-8">
+          <p className="text-muted-foreground">No quiz questions available for this module.</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const currentQ = questions[currentQuestion];
   const progress = ((currentQuestion + 1) / questions.length) * 100;
