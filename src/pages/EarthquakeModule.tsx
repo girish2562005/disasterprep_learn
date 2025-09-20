@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -91,52 +92,6 @@ Store your kit in an easily accessible location and check expiration dates regul
   }
 ];
 
-const quizQuestions = [
-  {
-    id: "1",
-    question: "What is the first action you should take when you feel earthquake shaking?",
-    options: [
-      "Run outside immediately",
-      "Drop to hands and knees",
-      "Stand in a doorway",
-      "Get in a car"
-    ],
-    order_index: 0
-  },
-  {
-    id: "2",
-    question: "Where should you take cover during an earthquake?",
-    options: [
-      "Under a desk or sturdy table",
-      "In a doorway",
-      "Next to a window",
-      "Under a chandelier"
-    ],
-    order_index: 1
-  },
-  {
-    id: "3",
-    question: "How much water should you store per person for emergency preparedness?",
-    options: [
-      "1/2 gallon per day",
-      "1 gallon per day", 
-      "2 gallons per day",
-      "3 gallons per day"
-    ],
-    order_index: 2
-  },
-  {
-    id: "4",
-    question: "When should you stop Drop, Cover, and Hold On?",
-    options: [
-      "After 10 seconds",
-      "When the shaking slows down",
-      "When shaking completely stops",
-      "When you hear the all-clear signal"
-    ],
-    order_index: 3
-  }
-];
 
 const virtualDrillSteps = [
   {
@@ -206,7 +161,49 @@ export default function EarthquakeModule() {
   const [videosWatched, setVideosWatched] = useState(0);
   const [earnedBadges, setEarnedBadges] = useState<string[]>([]);
   const [showBadgeReward, setShowBadgeReward] = useState<string | null>(null);
+  const [quizQuestions, setQuizQuestions] = useState<Array<{
+    id: string;
+    question: string;
+    options: string[];
+    order_index: number;
+  }>>([]);
   const { toast } = useToast();
+
+  // Load quiz questions securely from database
+  useEffect(() => {
+    const loadQuizQuestions = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('quiz_questions_student_view')
+          .select('*')
+          .order('order_index');
+
+        if (error) {
+          console.error('Error loading quiz questions:', error);
+          toast({
+            title: "Error",
+            description: "Failed to load quiz questions",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        // Map the database data to the expected format
+        const formattedQuestions = (data || []).map(item => ({
+          id: item.id,
+          question: item.question,
+          options: Array.isArray(item.options) ? (item.options as string[]) : [],
+          order_index: item.order_index
+        }));
+        
+        setQuizQuestions(formattedQuestions);
+      } catch (error) {
+        console.error('Error loading quiz questions:', error);
+      }
+    };
+
+    loadQuizQuestions();
+  }, [toast]);
 
   const progressStats = {
     theoryProgress: (completedTheorySections.size / theorySections.length) * 100,
