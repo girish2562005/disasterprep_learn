@@ -7,8 +7,10 @@ import { TheoryContent } from "@/components/TheoryContent";
 import { SecureQuizCard } from "@/components/SecureQuizCard";
 import { ProgressTracker } from "@/components/ProgressTracker";
 import { VirtualDrill } from "@/components/VirtualDrill";
+import { InteractiveScenarios } from "@/components/InteractiveScenarios";
+import { VideoLearning } from "@/components/VideoLearning";
 import { BadgeReward } from "@/components/BadgeReward";
-import { ArrowLeft, BookOpen, Brain, Shield, Trophy } from "lucide-react";
+import { ArrowLeft, BookOpen, Brain, Shield, Trophy, Play, Image } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Sample data - in real app this would come from Supabase
@@ -200,6 +202,8 @@ export default function EarthquakeModule() {
   const [currentTheorySection, setCurrentTheorySection] = useState(0);
   const [quizScore, setQuizScore] = useState<number | null>(null);
   const [drillsCompleted, setDrillsCompleted] = useState(0);
+  const [scenarioScore, setScenarioScore] = useState<number | null>(null);
+  const [videosWatched, setVideosWatched] = useState(0);
   const [earnedBadges, setEarnedBadges] = useState<string[]>([]);
   const [showBadgeReward, setShowBadgeReward] = useState<string | null>(null);
   const { toast } = useToast();
@@ -208,6 +212,8 @@ export default function EarthquakeModule() {
     theoryProgress: (completedTheorySections.size / theorySections.length) * 100,
     quizScore,
     drillsCompleted,
+    scenarioScore,
+    videosWatched,
     totalTimeSpent: "2h 15m",
     currentStreak: 3,
     badges: earnedBadges
@@ -249,6 +255,18 @@ export default function EarthquakeModule() {
     });
   };
 
+  const handleScenarioComplete = (score: number) => {
+    setScenarioScore(score);
+    toast({
+      title: "Interactive Scenarios Completed!",
+      description: `You scored ${score}%! Great job practicing emergency responses.`,
+    });
+  };
+
+  const handleVideoComplete = (videoId: string) => {
+    setVideosWatched(prev => prev + 1);
+  };
+
   const checkForBadge = (badgeId: string) => {
     if (!earnedBadges.includes(badgeId)) {
       setEarnedBadges(prev => [...prev, badgeId]);
@@ -281,7 +299,7 @@ export default function EarthquakeModule() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="progress" className="flex items-center gap-2">
               <Trophy className="w-4 h-4" />
               Progress
@@ -293,6 +311,14 @@ export default function EarthquakeModule() {
             <TabsTrigger value="quiz" className="flex items-center gap-2">
               <Brain className="w-4 h-4" />
               Quiz
+            </TabsTrigger>
+            <TabsTrigger value="scenarios" className="flex items-center gap-2">
+              <Image className="w-4 h-4" />
+              Scenarios
+            </TabsTrigger>
+            <TabsTrigger value="videos" className="flex items-center gap-2">
+              <Play className="w-4 h-4" />
+              Videos
             </TabsTrigger>
             <TabsTrigger value="drills" className="flex items-center gap-2">
               <Shield className="w-4 h-4" />
@@ -327,6 +353,14 @@ export default function EarthquakeModule() {
               moduleId="earthquake-safety"
               onComplete={handleQuizComplete}
             />
+          </TabsContent>
+
+          <TabsContent value="scenarios">
+            <InteractiveScenarios onComplete={handleScenarioComplete} />
+          </TabsContent>
+
+          <TabsContent value="videos">
+            <VideoLearning onVideoComplete={handleVideoComplete} />
           </TabsContent>
 
           <TabsContent value="drills">
