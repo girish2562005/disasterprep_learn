@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TheoryContent } from "@/components/TheoryContent";
-import { QuizCard } from "@/components/QuizCard";
+import { SecureQuizCard } from "@/components/SecureQuizCard";
 import { ProgressTracker } from "@/components/ProgressTracker";
 import { VirtualDrill } from "@/components/VirtualDrill";
 import { BadgeReward } from "@/components/BadgeReward";
@@ -99,8 +99,7 @@ const quizQuestions = [
       "Stand in a doorway",
       "Get in a car"
     ],
-    correctAnswer: 1,
-    explanation: "DROP is the first step in 'Drop, Cover, and Hold On' - immediately drop to your hands and knees to prevent being knocked over by the shaking."
+    order_index: 0
   },
   {
     id: "2",
@@ -111,8 +110,7 @@ const quizQuestions = [
       "Next to a window",
       "Under a chandelier"
     ],
-    correctAnswer: 0,
-    explanation: "Take cover under a desk or sturdy table to protect yourself from falling objects. Doorways are not safer than other parts of a modern building."
+    order_index: 1
   },
   {
     id: "3",
@@ -123,8 +121,7 @@ const quizQuestions = [
       "2 gallons per day",
       "3 gallons per day"
     ],
-    correctAnswer: 1,
-    explanation: "Store 1 gallon of water per person per day for at least 3 days. This covers drinking, cooking, and basic hygiene needs."
+    order_index: 2
   },
   {
     id: "4",
@@ -135,8 +132,7 @@ const quizQuestions = [
       "When shaking completely stops",
       "When you hear the all-clear signal"
     ],
-    correctAnswer: 2,
-    explanation: "Stay in your protective position until the shaking completely stops. Earthquakes can have multiple waves of shaking."
+    order_index: 3
   }
 ];
 
@@ -324,10 +320,11 @@ export default function EarthquakeModule() {
           </TabsContent>
 
           <TabsContent value="quiz">
-            <QuizCard
+            <SecureQuizCard
               title="Earthquake Safety Quiz"
               description="Test your knowledge of earthquake safety procedures"
               questions={quizQuestions}
+              moduleId="earthquake-safety"
               onComplete={handleQuizComplete}
             />
           </TabsContent>
