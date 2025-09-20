@@ -284,6 +284,14 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      submit_quiz_answers: {
+        Args: { answers: Json; module_id: string }
+        Returns: Json
+      }
+      validate_quiz_answer: {
+        Args: { question_id: string; user_answer: number }
+        Returns: Json
+      }
     }
     Enums: {
       difficulty_level: "beginner" | "intermediate" | "advanced"
