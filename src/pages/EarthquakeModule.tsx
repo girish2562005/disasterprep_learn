@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -197,6 +198,7 @@ const availableBadges = [
 ];
 
 export default function EarthquakeModule() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("progress");
   const [completedTheorySections, setCompletedTheorySections] = useState<Set<string>>(new Set());
   const [currentTheorySection, setCurrentTheorySection] = useState(0);
@@ -270,7 +272,7 @@ export default function EarthquakeModule() {
     <div className="min-h-screen bg-background py-8 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="flex items-center gap-4 mb-8">
-          <Button variant="outline" onClick={() => window.history.back()}>
+          <Button variant="outline" onClick={() => navigate("/")}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Modules
           </Button>
