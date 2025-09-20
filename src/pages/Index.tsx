@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -57,12 +58,13 @@ const sampleQuizQuestions = [
 const Index = () => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [completedModules, setCompletedModules] = useState<Set<string>>(new Set());
+  const navigate = useNavigate();
 
   const handleModuleStart = (moduleId: string) => {
     if (moduleId === "earthquake") {
-      // Navigate to the dedicated earthquake module page
-      window.location.href = "/earthquake-module";
+      navigate("/earthquake-module");
     }
+    // Add other module routes here when they're implemented
   };
 
   const handleQuizComplete = (score: number) => {
