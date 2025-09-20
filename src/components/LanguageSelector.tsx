@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { Languages, Globe, Check } from "lucide-react";
+import { Globe, Check } from "lucide-react";
 
 interface Language {
   code: string;
@@ -66,25 +64,6 @@ export const LanguageSelector = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Language Features Card (for display purposes) */}
-      <Card className="hidden lg:block w-80">
-        <CardContent className="p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Languages className="w-5 h-5 text-primary" />
-            <h4 className="font-semibold">Multilingual Support</h4>
-          </div>
-          <p className="text-sm text-muted-foreground mb-3">
-            Emergency preparedness training available in multiple Indian languages for better accessibility.
-          </p>
-          <div className="flex flex-wrap gap-1">
-            {languages.map((lang) => (
-              <Badge key={lang.code} variant="outline" className="text-xs">
-                {lang.flag} {lang.name}
-              </Badge>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
